@@ -6,14 +6,12 @@
     <packaging>war</packaging>
     <groupId>springmvc_freamwork</groupId>
     <properties>
-        <spring.version>4.3.2.RELEASE</spring.version>
-        <mybatis.version>3.2.6</mybatis.version>
+        <spring.version>4.2.5.RELEASE</spring.version>
+        <mybatis.version>3.2.8</mybatis.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.7</slf4j.version>
         <junit.version>4.11</junit.version>
     </properties>
-    <artifactId>springmvc_freamwork</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <dependencies>
         <!-- spring 核心 -->
         <dependency>
@@ -72,7 +70,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.31</version>
+            <version>5.1.30</version>
         </dependency>
         <!--mybatis-->
         <dependency>
@@ -97,12 +95,20 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+
         <!-- fast json-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.15</version>
         </dependency>
+        <!-- 连接池-->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
@@ -110,10 +116,37 @@
             <version>1.4.7</version>
         </dependency>
 
+
+        <!--jstl-->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+
     </dependencies>
+    <artifactId>springmvc_freamwork</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <build>
-
+        <!--mybatis 插件-->
+        <plugins>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.5</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+        </plugins>
 
     </build>
 
