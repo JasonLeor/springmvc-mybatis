@@ -12,6 +12,7 @@
     <!--扫描 controller-->
     <context:component-scan base-package="com.jason.controller"/>
 
+    <!-- use fastjson httpmsg converter -->
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
@@ -32,11 +33,28 @@
 
     </mvc:annotation-driven>
 
-    <!-- jsp 视图 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="suffix" value="/WEB-INF/jsp"/>
-        <property name="prefix" value=".jsp"/>
+
+    <!--模板解析-->
+    <!--thymeleaf-->
+    <bean id="thymeResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".html"/>
+        <property name="templateMode" value="HTML"/>
+        <property name="cacheable" value="false"/><!-- 是否缓存 -->
     </bean>
+    <bean id="thymeleafEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="thymeResolver"/>
+    </bean>
+    <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="thymeleafEngine"/>
+    </bean>
+
+
+    <!-- jstl -->
+    <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+    <!--<property name="suffix" value="/WEB-INF/jsp"/>-->
+    <!--<property name="prefix" value=".jsp"/>-->
+    <!--</bean>-->
 
 
 </beans>

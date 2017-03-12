@@ -1,13 +1,14 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
 <script>
     var websocket;
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://websocket");
+        websocket = new WebSocket("ws://127.0.0.1:8080/springmvc/ws22");
     } else if ('MozWebSocket' in window) {
         websocket = new MozWebSocket("ws://websocket");
     } else {
