@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                         http://www.springframework.org/schema/context
-                        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/context/spring-context-4.0.xsd
                         http://www.springframework.org/schema/tx
                         http://www.springframework.org/schema/tx/spring-tx.xsd">
     <context:component-scan base-package="com.jason"/>
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:config/db.properties"/>
-    </bean>
 
+    <!--<context:property-placeholder location="classpath:/config/db.properties" />-->
     <!--数据源-->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${jdbc.driverClasss}"/>
-        <property name="url" value="${jdbc.jdbcUrl}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <!-- 初始化 连接的大小 -->
-        <property name="initialSize" value="${pool.initSize}"/>
-        <!-- 最大活动数量 -->
-        <property name="maxActive" value="${pool.maxActive}"/>
-        <!-- 最大闲置数量 -->
-        <property name="maxIdle" value="${pool.maxIdle}"/>
-        <!-- 最小闲置数量-->
-        <property name="minIdle" value="${pool.minIdle}"/>
-        <!-- 超时等待时间 -->
-        <property name="maxWait" value="${pool.maxWait}"/>
+    <bean id="mydataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/hairemall"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <!--&lt;!&ndash; 初始化 连接的大小 &ndash;&gt;-->
+        <!--<property name="initialSize" value="${pool.initSize}"/>-->
+        <!--&lt;!&ndash; 最大活动数量 &ndash;&gt;-->
+        <!--<property name="maxActive" value="${pool.maxActive}"/>-->
+        <!--&lt;!&ndash; 最大闲置数量 &ndash;&gt;-->
+        <!--<property name="maxIdle" value="${pool.maxIdle}"/>-->
+        <!--&lt;!&ndash; 最小闲置数量&ndash;&gt;-->
+        <!--<property name="minIdle" value="${pool.minIdle}"/>-->
+        <!--&lt;!&ndash; 超时等待时间 &ndash;&gt;-->
+        <!--<property name="maxWait" value="${pool.maxWait}"/>-->
+    </bean>
+    <!--注册session工厂-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="mydataSource"/>
+        <property name="mapperLocations" value="classpath:config/mybatis/mapping/*.xml"/>
     </bean>
     <!-- 扫描dao-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.jason.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
     <!-- 事务管理 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="dataSource" ref="mydataSource"/>
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
