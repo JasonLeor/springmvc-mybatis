@@ -11,23 +11,23 @@
                         http://www.springframework.org/schema/tx/spring-tx.xsd">
     <context:component-scan base-package="com.jason"/>
 
-    <!--<context:property-placeholder location="classpath:/config/db.properties" />-->
+    <context:property-placeholder location="classpath:/config/db.properties" order="1"/>
     <!--数据源-->
     <bean id="mydataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/hairemall"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
-        <!--&lt;!&ndash; 初始化 连接的大小 &ndash;&gt;-->
-        <!--<property name="initialSize" value="${pool.initSize}"/>-->
-        <!--&lt;!&ndash; 最大活动数量 &ndash;&gt;-->
-        <!--<property name="maxActive" value="${pool.maxActive}"/>-->
-        <!--&lt;!&ndash; 最大闲置数量 &ndash;&gt;-->
-        <!--<property name="maxIdle" value="${pool.maxIdle}"/>-->
-        <!--&lt;!&ndash; 最小闲置数量&ndash;&gt;-->
-        <!--<property name="minIdle" value="${pool.minIdle}"/>-->
-        <!--&lt;!&ndash; 超时等待时间 &ndash;&gt;-->
-        <!--<property name="maxWait" value="${pool.maxWait}"/>-->
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.jdbcUrl}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 初始化 连接的大小 -->
+        <property name="initialSize" value="${pool.initSize}"/>
+        <!-- 最大活动数量 -->
+        <property name="maxActive" value="${pool.maxActive}"/>
+        <!-- 最大闲置数量 -->
+        <property name="maxIdle" value="${pool.maxIdle}"/>
+        <!-- 最小闲置数量-->
+        <property name="minIdle" value="${pool.minIdle}"/>
+        <!-- 超时等待时间 -->
+        <property name="maxWait" value="${pool.maxWait}"/>
     </bean>
     <!--注册session工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -37,7 +37,7 @@
     <!-- 扫描dao-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.jason.dao"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
     <!-- 事务管理 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

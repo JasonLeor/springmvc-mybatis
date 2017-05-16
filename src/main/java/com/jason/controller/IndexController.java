@@ -20,11 +20,11 @@ public class IndexController {
     @ResponseBody
     public HmUser index() {
         HmUser user = hmUserMapper.selectByPrimaryKey(1);
-        System.out.print(user);
         return user;
     }
 
-    @RequestMapping(value = "/2", method = RequestMethod.GET)
+    //
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String index2() {
         HmUser user = hmUserMapper.selectByPrimaryKey(1);
         System.out.print(user);

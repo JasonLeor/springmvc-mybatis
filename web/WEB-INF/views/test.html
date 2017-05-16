@@ -10,9 +10,9 @@
     if ('WebSocket' in window) {
         websocket = new WebSocket("ws://127.0.0.1:8080/springmvc/ws22");
     } else if ('MozWebSocket' in window) {
-        websocket = new MozWebSocket("ws://websocket");
+        websocket = new MozWebSocket("ws://127.0.0.1:8080/springmvc/ws22");
     } else {
-        websocket = new SockJS("ws://websocket");
+        websocket = new SockJS("ws://127.0.0.1:8080/springmvc/ws22");
     }
     websocket.onopen = function (event) {
         console.log("WebSocket:已连接");
