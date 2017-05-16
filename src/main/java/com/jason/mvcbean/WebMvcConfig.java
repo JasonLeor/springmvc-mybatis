@@ -14,13 +14,13 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebMvcConfig extends WebMvcConfigurerAdapter implements WebSocketConfigurer {
     @Autowired
-    private SystemWebSocketHandler systemWebSocketHandler;
+    private PublicChatHandler publicChatHandler;
 
     /**
      * 注册方法 把所有WEBSOCKET的路由要在这注册声明
      */
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(systemWebSocketHandler, "/ws22").
+        registry.addHandler(publicChatHandler, "/chatroom").
                 setAllowedOrigins("*").addInterceptors(new HandShake());
 
     }

@@ -1,0 +1,27 @@
+<!DOCTYPE >
+<html LANG="CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UFT-8"/>
+    <title>Title</title>
+</head>
+<body>
+가가가가
+<script type="text/javascript">
+    var websocket;
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("ws://127.0.0.1:8080/springmvc/ws22");
+    } else if ('MozWebSocket' in window) {
+        websocket = new MozWebSocket("ws://127.0.0.1:8080/springmvc/ws22");
+    } else {
+        websocket = new SockJS("ws://127.0.0.1:8080/springmvc/ws22");
+    }
+    websocket.onopen = function (event) {
+        console.log("WebSocket:");
+        console.log(event);
+    };
+    websocket.onmessage = function (event) {
+        console.log('Client received a message', event);
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>聊天室</title>
+</head>
+<body>
+welcome
+<script type="text/javascript">
+    var chat;
+    chat = new WebSocket("ws://127.0.0.1:8080/springmvc/chatroom?roomId=111&uId=15154");
+    chat.onmessage = function (event) {
+        console.log("to messages", event);
+    }
+</script>
+</body>
+</html>

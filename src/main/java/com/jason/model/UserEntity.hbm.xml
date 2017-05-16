@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.jason.model.UserEntity" table="user" schema="goodchat">
+        <id name="userId" column="user_id"/>
+        <property name="userName" column="user_name"/>
+        <property name="nickName" column="nick_name"/>
+        <property name="password" column="password"/>
+        <property name="lastLoginTime" column="last_login_time"/>
+        <property name="registerTime" column="register_time"/>
+        <property name="avatar" column="avatar"/>
+        <property name="isValid" column="is_valid"/>
+    </class>
+</hibernate-mapping>

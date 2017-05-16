@@ -16,7 +16,7 @@
         </commentGenerator>
 
         <!-- !!!! Database Configurations !!!! -->
-        <jdbcConnection driverClass="${jdbc.driverClasss}"
+        <jdbcConnection driverClass="${jdbc.driverClass}"
                         connectionURL="${jdbc.jdbcUrl}"
                         userId="${jdbc.username}"
                         password="${jdbc.password}"/>
@@ -50,8 +50,15 @@
             <property name="enableSubPackages" value="false"/>
 
         </javaClientGenerator>
-        <!--表-->
-        <table tableName="hm_user"
+        <!--用户表-->
+        <table tableName="user"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+        />
+        <!--房间表-->
+        <table tableName="room"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
