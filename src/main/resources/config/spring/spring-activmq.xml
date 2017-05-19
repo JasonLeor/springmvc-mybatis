@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://activemq.apache.org/schema/core
+        http://activemq.apache.org/schema/core/activemq-core-5.12.1.xsd">
+
+    <context:component-scan base-package="com.jason.jms.activmq"/>
+
+    <amq:connectionFactory
+            id="amqConnectionFactory"
+            brokerURL="tcp://localhost:61616"
+            userName="admin"
+            password="admin"/>
+    <!--JMS 长连接-->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+        <property name="sessionCacheSize" value="100"/>
+    </bean>
+
+    <!--消息队列-->
+    <bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg>
+            <value>queue.demo</value>
+        </constructor-arg>
+    </bean>
+
+    <!--JMS模板 spring 提供的工具栏-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="queueDestination"/>
+        <property name="receiveTimeout" value="10000"/>
+        <property name="pubSubDomain" value="true"/>
+    </bean>
+
+    <!--注入 消息监听容器 -->
+    <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="destination" ref="queueDestination"/>
+        <!--<property name="messageListener" ref="receiveLisener"/>-->
+
+        <!--自定义消息监听器-->
+        <property name="messageListener" ref="adapter"/>
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="receiveTimeout" value="30000"/>
+    </bean>
+
+    <!-- jms消息适配器 -->
+    <bean id="adapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <property name="delegate" ref="receiveLisener"/>
+        <property name="defaultListenerMethod" value="receiveMsg"/>
+        <property name="messageConverter" ref="messageConvert"/>
+
+    </bean>
+    <!-- 监听器 -->
+    <bean id="receiveLisener" class="com.jason.jms.activmq.ReceiveListener"/>
+    <!-- 消息转换器 类似于拦截器 -->
+    <bean id="messageConvert" class="com.jason.jms.activmq.MessageConvert"/>
+</beans>
